@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avalon</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
+    <title>HVILL Hospital</title>
+    <?php include __DIR__ . '/php/includes/ui_theme.php'; ?>
     <style>
         /* Apply Georgia to the entire body */
         body {
@@ -93,21 +90,17 @@
             transition: transform 0.25s ease;
         }
     </style>
-    <script>
-    window.DESIGNATED_ROLE = 'Employee';
-    window.DESIGNATED_DEFAULT_SECTION = 'dashboard'; 
-</script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
-    <script src="js/main.js" type="module" defer></script>
+    <!-- Removed js/main.js on login page to use real login flow -->
     
 </head>
-<body class="bg-[#FFF6E8]">
+<body>
 
     <div id="login-container" class="flex items-center justify-center min-h-screen">
         <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md border border-[#F7E6CA]">
             <div class="text-center">
-                 <img src="logo.png" alt="HR System Logo" class="h-16 w-auto mx-auto mb-4">
+                 <img src="logo.jpg" alt="HVILL Hospital Logo" class="h-16 w-auto mx-auto mb-4">
                  <h2 class="text-2xl font-bold text-[#4E3B2A]">HR System Login</h2>
             </div>
 
@@ -372,7 +365,7 @@
             </main>
 
             <footer class="text-center py-4 text-xs text-gray-500 border-t border-[#F7E6CA] flex-shrink-0">
-                © 2025 Avalon HR Management System. All rights reserved.
+                © 2025 HVILL Hospital HR Management System. All rights reserved.
             </footer>
         </div>
 
@@ -553,6 +546,81 @@
         </div>
 
     </div> <script>
+        // Login flow for index.php (calls API and handles 2FA)
+        const loginForm = document.getElementById('login-form');
+        const loginStatus = document.getElementById('login-status');
+        const twoFaForm = document.getElementById('2fa-form');
+        const twoFaStatus = document.getElementById('2fa-status');
+        const twoFaMessage = document.getElementById('2fa-message');
+        const twoFaUserIdInput = document.getElementById('2fa-user-id');
+
+        async function postJson(url, data) {
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const json = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(json.error || 'Request failed');
+            return json;
+        }
+
+        function goToLanding(roleName) {
+            switch ((roleName || '').toLowerCase()) {
+                case 'system admin':
+                case 'hr admin':
+                    window.location.href = 'admin_landing.php';
+                    break;
+                case 'manager':
+                case 'employee':
+                default:
+                    window.location.href = 'employee_landing.php';
+                    break;
+            }
+        }
+
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                loginStatus.textContent = 'Signing in...';
+                try {
+                    const payload = {
+                        username: document.getElementById('username').value.trim(),
+                        password: document.getElementById('password').value
+                    };
+                    const result = await postJson('php/api/auth/login.php', payload);
+                    if (result.two_factor_required) {
+                        twoFaUserIdInput.value = result.user_id_temp;
+                        twoFaMessage.textContent = result.message || 'Enter the 6-digit code sent to your email.';
+                        twoFaForm.classList.remove('hidden');
+                        loginForm.classList.add('hidden');
+                        loginStatus.textContent = '';
+                    } else {
+                        loginStatus.textContent = '';
+                        goToLanding(result.user?.role_name);
+                    }
+                } catch (err) {
+                    loginStatus.textContent = err.message || 'Login failed.';
+                }
+            });
+        }
+
+        if (twoFaForm) {
+            twoFaForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                twoFaStatus.textContent = 'Verifying...';
+                try {
+                    const result = await postJson('php/api/verify_2fa.php', {
+                        user_id: parseInt(twoFaUserIdInput.value, 10),
+                        code: document.getElementById('2fa-code').value.trim()
+                    });
+                    twoFaStatus.textContent = '';
+                    goToLanding(result.user?.role_name);
+                } catch (err) {
+                    twoFaStatus.textContent = err.message || 'Verification failed.';
+                }
+            });
+        }
         // DOM Element References
         const menuBtn = document.querySelector('.menu-btn');
         const sidebar = document.querySelector('.sidebar');

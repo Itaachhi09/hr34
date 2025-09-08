@@ -50,6 +50,7 @@ import {
  } from './analytics/analytics.js';
  // Admin
 import { displayUserManagementSection } from './admin/user_management.js';
+import { displayHmoBenefitsSection } from './hmo/hmo.js';
 // User Profile
 import { displayUserProfileSection } from './profile/profile.js';
 // --- Import Notification Functions ---
@@ -558,6 +559,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'analytics-reports': displayAnalyticsReportsSection,
         'analytics-metrics': displayAnalyticsMetricsSection,
         'user-management': displayUserManagementSection,
+        'hmo-benefits': displayHmoBenefitsSection,
         'profile': displayUserProfileSection
     };
 

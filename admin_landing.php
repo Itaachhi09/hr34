@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avalon - Admin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
+    <title>HVILL Hospital - Admin</title>
+    <?php include __DIR__ . '/php/includes/ui_theme.php'; ?>
     <style>
         /* Apply Georgia to the entire body */
         body {
@@ -100,7 +97,7 @@
     <script src="js/main.js" type="module" defer></script> <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
 </head>
-<body class="bg-[#FFF6E8]">
+<body>
 
     <div id="app-container" class="flex min-h-screen w-full">
         <div class="sidebar-overlay" id="sidebar-overlay"></div>
@@ -108,8 +105,8 @@
         <div class="sidebar sidebar-expanded fixed z-50 overflow-y-auto h-screen bg-white border-r border-[#F7E6CA] flex flex-col transition-width duration-300 ease-in-out">
             <div class="h-16 border-b border-[#F7E6CA] flex items-center justify-between px-4 space-x-2 sticky top-0 bg-white z-10 flex-shrink-0">
                 <div class="flex items-center space-x-2 overflow-hidden">
-                    <img src="logo.png" alt="HR System Logo" class="h-10 w-auto flex-shrink-0">
-                    <img src="logo-name.png" alt="Avalon Logo Name" class="h-6 w-auto sidebar-logo-name">
+                    <img src="logo.jpg" alt="HVILL Hospital Logo" class="h-10 w-auto flex-shrink-0">
+                    <span class="h-6 w-auto sidebar-logo-name text-lg font-semibold text-[#0b1a33]">HVILL Hospital</span>
                 </div>
                 <i id="close-sidebar-btn" class="fa-solid fa-xmark close-sidebar-btn font-bold text-xl cursor-pointer text-[#4E3B2A] hover:text-red-500 flex-shrink-0"></i>
             </div>
@@ -321,7 +318,7 @@
             </main>
 
             <footer class="text-center py-4 text-xs text-gray-500 border-t border-[#F7E6CA] flex-shrink-0">
-                © 2025 Avalon HR Management System. All rights reserved.
+                © 2025 HVILL Hospital HR Management System. All rights reserved.
             </footer>
         </div>
 

@@ -32,7 +32,7 @@ try {
         $summaryData['total_employees'] = $stmt->fetchColumn();
 
         // Active Employees
-        $stmt = $pdo->query("SELECT COUNT(*) as count FROM Employees WHERE IsActive = 1");
+        $stmt = $pdo->query("SELECT COUNT(*) as count FROM Employees WHERE Status = 'Active'");
         $summaryData['active_employees'] = $stmt->fetchColumn();
         $inactive_employees = $summaryData['total_employees'] - $summaryData['active_employees'];
         $summaryData['charts']['employee_status_distribution'] = [
@@ -45,7 +45,7 @@ try {
         $summaryData['pending_leave_requests'] = $stmt->fetchColumn();
 
         // Total Departments
-        $stmt = $pdo->query("SELECT COUNT(*) as count FROM organizationalstructure"); 
+        $stmt = $pdo->query("SELECT COUNT(*) as count FROM departments"); 
         $summaryData['total_departments'] = $stmt->fetchColumn();
         
         // Recent Hires (Last 30 days)
@@ -53,19 +53,19 @@ try {
         $summaryData['recent_hires_last_30_days'] = $stmt_recent_hires->fetchColumn();
 
         // Leave Requests by Type (Last 30 Days, System-wide)
-        $stmt_leave_types = $pdo->query("
-            SELECT lt.TypeName, COUNT(lr.RequestID) as count
-            FROM LeaveRequests lr
-            JOIN LeaveTypes lt ON lr.LeaveTypeID = lt.LeaveTypeID
-            WHERE lr.RequestDate >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
-            GROUP BY lt.TypeName
-            ORDER BY count DESC
-            LIMIT 5
-        ");
+        $stmt_leave_types = $pdo->query(
+            "SELECT lt.LeaveName, COUNT(lr.RequestID) as count\n" .
+            "FROM LeaveRequests lr\n" .
+            "JOIN LeaveTypes lt ON lr.LeaveTypeID = lt.LeaveTypeID\n" .
+            "WHERE lr.RequestDate >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)\n" .
+            "GROUP BY lt.LeaveName\n" .
+            "ORDER BY count DESC\n" .
+            "LIMIT 5"
+        );
         $leave_type_labels = [];
         $leave_type_data = [];
         while ($row = $stmt_leave_types->fetch(PDO::FETCH_ASSOC)) {
-            $leave_type_labels[] = $row['TypeName'];
+            $leave_type_labels[] = $row['LeaveName'];
             $leave_type_data[] = (int)$row['count'];
         }
         $summaryData['charts']['leave_requests_by_type'] = [
@@ -75,11 +75,11 @@ try {
 
         // Employee Distribution by Department
         $stmt_dept_dist = $pdo->query("
-            SELECT os.DepartmentName, COUNT(e.EmployeeID) as count
+            SELECT d.DepartmentName, COUNT(e.EmployeeID) as count
             FROM Employees e
-            JOIN organizationalstructure os ON e.DepartmentID = os.DepartmentID
-            WHERE e.IsActive = 1
-            GROUP BY os.DepartmentName
+            JOIN departments d ON e.DepartmentID = d.DepartmentID
+            WHERE e.Status = 'Active'
+            GROUP BY d.DepartmentName
             ORDER BY count DESC
         ");
         $dept_dist_labels = [];

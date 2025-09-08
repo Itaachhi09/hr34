@@ -39,7 +39,7 @@ try {
                 e.Suffix,
                 e.Email,
                 e.PersonalEmail,
-                e.PhoneNumber,
+                e.Phone as PhoneNumber,
                 e.DateOfBirth,
                 e.Gender,
                 e.MaritalStatus,
@@ -54,12 +54,12 @@ try {
                 e.EmergencyContactRelationship,
                 e.EmergencyContactPhone,
                 e.HireDate,
-                e.JobTitle,
+                jr.RoleName AS JobTitle,
                 e.DepartmentID,
                 d.DepartmentName,
                 e.ManagerID,
                 CONCAT(m.FirstName, ' ', m.LastName) AS ManagerName,
-                e.IsActive,
+                e.Status,
                 e.TerminationDate,
                 e.TerminationReason,
                 e.EmployeePhotoPath,
@@ -67,9 +67,11 @@ try {
             FROM
                 Employees e
             LEFT JOIN
-                OrganizationalStructure d ON e.DepartmentID = d.DepartmentID
+                departments d ON e.DepartmentID = d.DepartmentID
             LEFT JOIN
                 Employees m ON e.ManagerID = m.EmployeeID
+            LEFT JOIN
+                jobroles jr ON e.JobRoleID = jr.JobRoleID
             LEFT JOIN 
                 Users u ON e.EmployeeID = u.EmployeeID -- Join with Users table
             ORDER BY
@@ -89,7 +91,7 @@ try {
         if (!empty($employee['TerminationDate'])) {
             $employee['TerminationDateFormatted'] = date('M d, Y', strtotime($employee['TerminationDate']));
         }
-        $employee['Status'] = ($employee['IsActive'] == 1) ? 'Active' : 'Inactive';
+        $employee['Status'] = $employee['Status'] ?: 'Active';
     }
     unset($employee); // Unset the reference
 

@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS Roles (
+  RoleID INT PRIMARY KEY AUTO_INCREMENT,
+  RoleName VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS Users (
+  UserID INT PRIMARY KEY AUTO_INCREMENT,
+  EmployeeID INT NULL,
+  Username VARCHAR(100) NOT NULL UNIQUE,
+  PasswordHash VARCHAR(255) NOT NULL,
+  RoleID INT NOT NULL,
+  IsActive TINYINT(1) NOT NULL DEFAULT 1,
+  IsTwoFactorEnabled TINYINT(1) NOT NULL DEFAULT 0,
+  TwoFactorEmailCode VARCHAR(10) NULL,
+  TwoFactorCodeExpiry DATETIME NULL,
+  CONSTRAINT fk_users_roles FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
+);
+
+INSERT IGNORE INTO Roles (RoleID, RoleName) VALUES
+  (1,'System Admin'),(2,'HR Admin'),(3,'Employee'),(4,'Manager');
+
+

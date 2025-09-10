@@ -1,0 +1,406 @@
+{
+  "info": {
+    "name": "HR34 REST API Collection",
+    "description": "Complete REST API collection for HR34 microservices",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost/hr34/api_gateway",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "hr34-api-key-2024",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "test_username",
+      "value": "testuser",
+      "type": "string"
+    },
+    {
+      "key": "test_password",
+      "value": "testpass123",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"{{test_username}}\",\n  \"password\": \"{{test_password}}\"\n}"
+            },
+            "url": "{{base_url}}/api/v1/auth/login"
+          }
+        },
+        {
+          "name": "Verify 2FA",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 1,\n  \"code\": \"123456\"\n}"
+            },
+            "url": "{{base_url}}/api/v1/auth/verify-2fa"
+          }
+        },
+        {
+          "name": "Check Session",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/auth/check-session"
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/auth/logout"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Core HR",
+      "item": [
+        {
+          "name": "Get Employees",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/core-hr/employees"
+          }
+        },
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "X-API-Key", "value": "{{api_key}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"FirstName\": \"John\",\n  \"LastName\": \"Doe\",\n  \"Email\": \"john.doe@company.com\",\n  \"HireDate\": \"2024-01-01\",\n  \"DepartmentID\": 1,\n  \"JobRoleID\": 1\n}"
+            },
+            "url": "{{base_url}}/api/v1/core-hr/employees"
+          }
+        },
+        {
+          "name": "Get Departments",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/core-hr/departments"
+          }
+        },
+        {
+          "name": "Get Attendance",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/core-hr/attendance?employee_id=1&date_from=2024-01-01&date_to=2024-01-31"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payroll",
+      "item": [
+        {
+          "name": "Get Salaries",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/payroll/salaries"
+          }
+        },
+        {
+          "name": "Create Salary",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "X-API-Key", "value": "{{api_key}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"EmployeeID\": 1,\n  \"BaseSalary\": 50000,\n  \"EffectiveDate\": \"2024-01-01\"\n}"
+            },
+            "url": "{{base_url}}/api/v1/payroll/salaries"
+          }
+        },
+        {
+          "name": "Get Payroll Runs",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/payroll/payroll-runs"
+          }
+        },
+        {
+          "name": "Get Payslips",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/payroll/payslips"
+          }
+        }
+      ]
+    },
+    {
+      "name": "HMO",
+      "item": [
+        {
+          "name": "Get HMO Providers",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/hmo/providers"
+          }
+        },
+        {
+          "name": "Create HMO Provider",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "X-API-Key", "value": "{{api_key}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ProviderName\": \"Health Plus\",\n  \"ContactPerson\": \"Jane Smith\",\n  \"Phone\": \"123-456-7890\",\n  \"Email\": \"contact@healthplus.com\"\n}"
+            },
+            "url": "{{base_url}}/api/v1/hmo/providers"
+          }
+        },
+        {
+          "name": "Get Benefits Plans",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/hmo/benefits-plans"
+          }
+        },
+        {
+          "name": "Get Employee Benefits",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/hmo/employee-benefits?employee_id=1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "item": [
+        {
+          "name": "Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/analytics/dashboard-summary"
+          }
+        },
+        {
+          "name": "Key Metrics",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/analytics/key-metrics"
+          }
+        },
+        {
+          "name": "HR Analytics",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/analytics/hr-analytics"
+          }
+        },
+        {
+          "name": "Employee Master Report",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/analytics/reports/employee-master"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Get Notifications",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/notifications/"
+          }
+        },
+        {
+          "name": "Create Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "X-API-Key", "value": "{{api_key}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Title\": \"System Maintenance\",\n  \"Message\": \"System will be under maintenance tonight from 10 PM to 2 AM\",\n  \"TargetType\": \"All\",\n  \"Priority\": \"High\"\n}"
+            },
+            "url": "{{base_url}}/api/v1/notifications/"
+          }
+        },
+        {
+          "name": "Mark as Read",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "X-API-Key", "value": "{{api_key}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notification_id\": 1\n}"
+            },
+            "url": "{{base_url}}/api/v1/notifications/mark-read"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Compensation",
+      "item": [
+        {
+          "name": "Get Compensation Plans",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/compensation/plans"
+          }
+        },
+        {
+          "name": "Create Compensation Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "X-API-Key", "value": "{{api_key}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"PlanName\": \"Senior Manager Plan\",\n  \"Description\": \"Compensation plan for senior managers\",\n  \"BaseSalary\": 80000,\n  \"BonusPercentage\": 15,\n  \"CommissionRate\": 5,\n  \"Allowances\": \"Car allowance, phone allowance\",\n  \"Benefits\": \"Health insurance, retirement plan\"\n}"
+            },
+            "url": "{{base_url}}/api/v1/compensation/plans"
+          }
+        },
+        {
+          "name": "Get Salary Adjustments",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/compensation/salary-adjustments?employee_id=1&date_from=2024-01-01&date_to=2024-12-31"
+          }
+        },
+        {
+          "name": "Create Salary Adjustment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "X-API-Key", "value": "{{api_key}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"EmployeeID\": 1,\n  \"AdjustmentAmount\": 5000,\n  \"AdjustmentType\": \"Increase\",\n  \"AdjustmentDate\": \"2024-01-01\",\n  \"Reason\": \"Performance-based salary increase\",\n  \"Status\": \"Approved\"\n}"
+            },
+            "url": "{{base_url}}/api/v1/compensation/salary-adjustments"
+          }
+        },
+        {
+          "name": "Get Incentives",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/compensation/incentives?employee_id=1&date_from=2024-01-01&date_to=2024-12-31"
+          }
+        },
+        {
+          "name": "Create Incentive",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "X-API-Key", "value": "{{api_key}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"EmployeeID\": 1,\n  \"IncentiveAmount\": 2000,\n  \"IncentiveType\": \"Performance\",\n  \"IncentiveDate\": \"2024-01-15\",\n  \"Description\": \"Q4 performance bonus\",\n  \"Status\": \"Approved\"\n}"
+            },
+            "url": "{{base_url}}/api/v1/compensation/incentives"
+          }
+        },
+        {
+          "name": "Get Employee Compensation",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/compensation/employee-compensation?employee_id=1"
+          }
+        },
+        {
+          "name": "Assign Employee Compensation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"},
+              {"key": "X-API-Key", "value": "{{api_key}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"EmployeeID\": 1,\n  \"PlanID\": 1,\n  \"EffectiveDate\": \"2024-01-01\",\n  \"Status\": \"Active\",\n  \"Notes\": \"New compensation plan assignment\"\n}"
+            },
+            "url": "{{base_url}}/api/v1/compensation/employee-compensation"
+          }
+        },
+        {
+          "name": "Get Compensation Analytics",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/compensation/analytics"
+          }
+        },
+        {
+          "name": "Get Compensation Summary Report",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "X-API-Key", "value": "{{api_key}}"}],
+            "url": "{{base_url}}/api/v1/compensation/reports/compensation-summary?year=2024"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -180,39 +180,15 @@
                     </li>
 
                     <li class="menu-option">
-                        <div class="menu-name flex justify-between items-center space-x-3 hover:bg-[#F7E6CA] px-4 py-3 rounded-lg transition duration-300 ease-in-out cursor-pointer" onclick="toggleDropdown('claims-dropdown', this)">
+                        <a href="#" id="hmo-benefits-link" class="menu-name flex justify-between items-center space-x-3 hover:bg-[#F7E6CA] px-4 py-3 rounded-lg transition duration-300 ease-in-out cursor-pointer">
                             <div class="flex items-center space-x-2">
-                                <i class="fa-solid fa-receipt text-lg pr-4 menu-icon"></i>
-                                <span class="text-sm font-medium">Claims</span>
+                                <i class="fa-solid fa-briefcase-medical text-lg pr-4 menu-icon"></i>
+                                <span class="text-sm font-medium">HMO & Benefits</span>
                             </div>
-                            <div class="arrow"><i class="bx bx-chevron-right text-lg font-semibold arrow-icon"></i></div>
-                        </div>
-                        <div id="claims-dropdown" class="menu-drop hidden flex-col w-full bg-[#F7E6CA] rounded-lg p-3 space-y-1 mt-1">
-                            <ul class="space-y-1">
-                                <li><a href="#" id="submit-claim-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">Submit Claim</a></li>
-                                <li><a href="#" id="my-claims-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">My Claims</a></li>
-                                <li><a href="#" id="claims-approval-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">Approvals</a></li>
-                                <li><a href="#" id="claim-types-admin-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">Claim Types (Admin)</a></li>
-                            </ul>
-                        </div>
+                        </a>
                     </li>
 
-                    <li class="menu-option">
-                        <div class="menu-name flex justify-between items-center space-x-3 hover:bg-[#F7E6CA] px-4 py-3 rounded-lg transition duration-300 ease-in-out cursor-pointer" onclick="toggleDropdown('leave-dropdown', this)">
-                            <div class="flex items-center space-x-2">
-                                <i class="fa-solid fa-calendar-alt text-lg pr-4 menu-icon"></i>
-                                <span class="text-sm font-medium">Leave Management</span>
-                            </div>
-                            <div class="arrow"><i class="bx bx-chevron-right text-lg font-semibold arrow-icon"></i></div>
-                        </div>
-                        <div id="leave-dropdown" class="menu-drop hidden flex-col w-full bg-[#F7E6CA] rounded-lg p-3 space-y-1 mt-1">
-                            <ul class="space-y-1">
-                                <li><a href="#" id="leave-requests-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">Leave Requests</a></li>
-                                <li><a href="#" id="leave-balances-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">Leave Balances</a></li>
-                                <li><a href="#" id="leave-types-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">Leave Types</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                    
 
                     <li class="menu-option">
                         <div class="menu-name flex justify-between items-center space-x-3 hover:bg-[#F7E6CA] px-4 py-3 rounded-lg transition duration-300 ease-in-out cursor-pointer" onclick="toggleDropdown('compensation-dropdown', this)">

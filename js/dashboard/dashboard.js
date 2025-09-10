@@ -17,9 +17,7 @@ let dashboardQuickActionsContainer; // Added for employee quick actions
 
 // Store chart instances to destroy them before re-rendering
 let employeeStatusChartInstance = null;
-let leaveRequestsChartInstance = null;
 let departmentDistributionChartInstance = null; // New chart instance
-let myLeaveSummaryChartInstance = null; // For employee
 
 /**
  * Initializes common elements used by the dashboard module.
@@ -123,17 +121,16 @@ function renderDashboardSummary(summaryData, userRole) {
     if (userRole === 'System Admin' || userRole === 'HR Admin') {
         cardsHtml += createSummaryCard('Total Employees', summaryData.total_employees || 0, 'fa-users', cardBgColor, textColor, iconColor, valueColor);
         cardsHtml += createSummaryCard('Active Employees', summaryData.active_employees || 0, 'fa-user-check', cardBgColor, textColor, iconColor, valueColor);
-        cardsHtml += createSummaryCard('Pending Leave', summaryData.pending_leave_requests || 0, 'fa-calendar-alt', cardBgColor, textColor, iconColor, valueColor);
+        // Leave cards removed
         // New Card for Recent Hires
         cardsHtml += createSummaryCard('Recent Hires (30d)', summaryData.recent_hires_last_30_days || 0, 'fa-user-plus', cardBgColor, textColor, iconColor, valueColor);
     } else if (userRole === 'Manager') {
         cardsHtml += createSummaryCard('Team Members', summaryData.team_members || 0, 'fa-users-cog', cardBgColor, textColor, iconColor, valueColor);
-        cardsHtml += createSummaryCard('Pending Team Leave', summaryData.pending_team_leave || 0, 'fa-calendar-day', cardBgColor, textColor, iconColor, valueColor);
+        // Leave cards removed
         cardsHtml += createSummaryCard('Pending Timesheets', summaryData.pending_timesheets || 0, 'fa-clock', cardBgColor, textColor, iconColor, valueColor);
         cardsHtml += createSummaryCard('Open Team Tasks', summaryData.open_tasks || 0, 'fa-tasks', cardBgColor, textColor, iconColor, valueColor);
     } else if (userRole === 'Employee') {
-        cardsHtml += createSummaryCard('My Available Leave', summaryData.available_leave_days || 0, 'fa-plane-departure', cardBgColor, textColor, iconColor, valueColor);
-        cardsHtml += createSummaryCard('My Pending Claims', summaryData.pending_claims || 0, 'fa-file-invoice-dollar', cardBgColor, textColor, iconColor, valueColor);
+        // Leave/Claims cards removed
         cardsHtml += createSummaryCard('Upcoming Payslip', summaryData.upcoming_payslip_date || 'N/A', 'fa-money-bill-wave', cardBgColor, textColor, iconColor, valueColor);
         cardsHtml += createSummaryCard('My Documents', summaryData.my_documents_count || 0, 'fa-folder-open', cardBgColor, textColor, iconColor, valueColor);
     } else {
@@ -233,13 +230,9 @@ function renderCharts(chartData, userRole) {
 
     // Destroy previous chart instances
     if (employeeStatusChartInstance) employeeStatusChartInstance.destroy();
-    if (leaveRequestsChartInstance) leaveRequestsChartInstance.destroy();
     if (departmentDistributionChartInstance) departmentDistributionChartInstance.destroy();
-    if (myLeaveSummaryChartInstance) myLeaveSummaryChartInstance.destroy();
     employeeStatusChartInstance = null;
-    leaveRequestsChartInstance = null;
     departmentDistributionChartInstance = null;
-    myLeaveSummaryChartInstance = null;
 
 
     const primaryChartColor = 'rgba(89, 68, 35, 0.7)'; 
@@ -284,32 +277,7 @@ function renderCharts(chartData, userRole) {
             });
         }
 
-        // Chart 2: Leave Requests by Type
-        if (chartData.leave_requests_by_type && chartData.leave_requests_by_type.data && chartData.leave_requests_by_type.data.length > 0) {
-            const div2 = document.createElement('div');
-            div2.className = 'bg-white p-6 rounded-lg shadow-md border border-[#F7E6CA] min-h-[300px]';
-            const canvas2 = document.createElement('canvas');
-            canvas2.id = 'leaveRequestsChart';
-            div2.appendChild(canvas2);
-            dashboardChartsContainer.appendChild(div2);
-
-            leaveRequestsChartInstance = new Chart(canvas2, {
-                type: 'bar',
-                data: {
-                    labels: chartData.leave_requests_by_type.labels,
-                    datasets: [{
-                        label: 'Leave Requests by Type',
-                        data: chartData.leave_requests_by_type.data,
-                        backgroundColor: secondaryChartColor, borderColor: borderColor, borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    scales: { y: { beginAtZero: true, ticks: { color: '#4E3B2A', stepSize: 1 }, grid: { color: tertiaryChartColor } }, x: { ticks: { color: '#4E3B2A' }, grid: { color: tertiaryChartColor } } },
-                    plugins: { legend: { display: false }, title: { display: true, text: 'Leave Requests by Type (Last 30 Days)', color: '#4E3B2A', font: { size: 16, family: 'Cinzel' } } }
-                }
-            });
-        }
+        // Leave charts removed
         
         // New Chart: Employee Distribution by Department
         if (chartData.employee_distribution_by_department && chartData.employee_distribution_by_department.data && chartData.employee_distribution_by_department.data.length > 0) {
@@ -341,32 +309,7 @@ function renderCharts(chartData, userRole) {
 
 
     } else if (userRole === 'Employee') {
-         if (chartData.my_leave_summary && chartData.my_leave_summary.data && chartData.my_leave_summary.data.some(d => d > 0)) { 
-            const div1 = document.createElement('div');
-            div1.className = 'bg-white p-6 rounded-lg shadow-md border border-[#F7E6CA] min-h-[300px]';
-            const canvas1 = document.createElement('canvas');
-            canvas1.id = 'myLeaveSummaryChart';
-            div1.appendChild(canvas1);
-            dashboardChartsContainer.appendChild(div1);
-            
-            myLeaveSummaryChartInstance = new Chart(canvas1, { 
-                type: 'pie',
-                data: {
-                    labels: chartData.my_leave_summary.labels || ['Available', 'Used This Year', 'Pending This Year'],
-                    datasets: [{
-                        label: 'My Leave Summary',
-                        data: chartData.my_leave_summary.data,
-                        backgroundColor: [primaryChartColor, secondaryChartColor, tertiaryChartColor],
-                        borderColor: [borderColor, borderColor, borderColor],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { position: 'top', labels: { color: '#4E3B2A' } }, title: { display: true, text: 'My Leave Summary (Current Year)', color: '#4E3B2A', font: { size: 16, family: 'Cinzel' } } }
-                }
-            });
-        }
+        // No employee leave charts
     }
 
     if (dashboardChartsContainer.children.length === 0) {

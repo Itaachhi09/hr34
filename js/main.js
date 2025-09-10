@@ -12,30 +12,14 @@ import { displayDashboardSection } from './dashboard/dashboard.js';
 import { displayEmployeeSection } from './core_hr/employees.js';
 import { displayDocumentsSection } from './core_hr/documents.js';
 import { displayOrgStructureSection } from './core_hr/org_structure.js';
-// Time & Attendance
-import { displayShiftsSection } from './time_attendance/shifts.js';
-import { displaySchedulesSection } from './time_attendance/schedules.js';
-import { displayAttendanceSection } from './time_attendance/attendance.js';
-import { displayTimesheetsSection, closeTimesheetModal } from './time_attendance/timesheets.js';
+// Time & Attendance removed
 // Payroll
 import { displaySalariesSection } from './payroll/salaries.js';
 import { displayBonusesSection } from './payroll/bonuses.js';
 import { displayDeductionsSection } from './payroll/deductions.js';
 import { displayPayrollRunsSection } from './payroll/payroll_runs.js';
 import { displayPayslipsSection } from './payroll/payslips.js';
-// Claims
-import {
-    displaySubmitClaimSection,
-    displayMyClaimsSection,
-    displayClaimsApprovalSection,
-    displayClaimTypesAdminSection
-} from './claims/claims.js';
-// Leave Management
-import {
-    displayLeaveTypesAdminSection,
-    displayLeaveRequestsSection,
-    displayLeaveBalancesSection
- } from './leave/leave.js';
+// Claims and Leave modules removed
  // Compensation Management
  import {
     displayCompensationPlansSection,
@@ -69,9 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const appContainer = document.getElementById('app-container');
     const mainContentArea = document.getElementById('main-content-area');
     const pageTitleElement = document.getElementById('page-title');
-    const timesheetModal = document.getElementById('timesheet-detail-modal');
-    const modalOverlayTs = document.getElementById('modal-overlay-ts');
-    const modalCloseBtnTs = document.getElementById('modal-close-btn-ts');
+    // Timesheet modal elements removed
     const userDisplayName = document.getElementById('user-display-name');
     const userDisplayRole = document.getElementById('user-display-role');
 
@@ -91,26 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
         employees: document.getElementById('employees-link')?.closest('li'),
         documents: document.getElementById('documents-link')?.closest('li'),
         orgStructure: document.getElementById('org-structure-link')?.closest('li'),
-        timeAttendance: document.querySelector('[onclick*="time-attendance-dropdown"]')?.closest('.menu-option'),
-        attendance: document.getElementById('attendance-link')?.closest('li'),
-        timesheets: document.getElementById('timesheets-link')?.closest('li'),
-        schedules: document.getElementById('schedules-link')?.closest('li'),
-        shifts: document.getElementById('shifts-link')?.closest('li'),
+        // time & attendance removed
+        hmoBenefits: document.getElementById('hmo-benefits-link')?.closest('li'),
         payroll: document.querySelector('[onclick*="payroll-dropdown"]')?.closest('.menu-option'),
         payrollRuns: document.getElementById('payroll-runs-link')?.closest('li'),
         salaries: document.getElementById('salaries-link')?.closest('li'),
         bonuses: document.getElementById('bonuses-link')?.closest('li'),
         deductions: document.getElementById('deductions-link')?.closest('li'),
         payslips: document.getElementById('payslips-link')?.closest('li'),
-        claims: document.querySelector('[onclick*="claims-dropdown"]')?.closest('.menu-option'),
-        submitClaim: document.getElementById('submit-claim-link')?.closest('li'),
-        myClaims: document.getElementById('my-claims-link')?.closest('li'),
-        claimsApproval: document.getElementById('claims-approval-link')?.closest('li'),
-        claimTypesAdmin: document.getElementById('claim-types-admin-link')?.closest('li'),
-        leave: document.querySelector('[onclick*="leave-dropdown"]')?.closest('.menu-option'),
-        leaveRequests: document.getElementById('leave-requests-link')?.closest('li'),
-        leaveBalances: document.getElementById('leave-balances-link')?.closest('li'),
-        leaveTypes: document.getElementById('leave-types-link')?.closest('li'),
+        // claims/leave removed
         compensation: document.querySelector('[onclick*="compensation-dropdown"]')?.closest('.menu-option'),
         compPlans: document.getElementById('comp-plans-link')?.closest('li'),
         salaryAdjust: document.getElementById('salary-adjust-link')?.closest('li'),
@@ -136,21 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn("Notification elements not fully found. Notifications might not work.");
     }
 
-    // --- Setup Modal Close Listeners ---
-    if (timesheetModal && modalOverlayTs && modalCloseBtnTs) {
-         if (typeof closeTimesheetModal === 'function') {
-             modalCloseBtnTs.addEventListener('click', closeTimesheetModal);
-             modalOverlayTs.addEventListener('click', closeTimesheetModal);
-             const footerCloseBtn = document.getElementById('modal-close-btn-ts-footer');
-             if (footerCloseBtn) footerCloseBtn.addEventListener('click', closeTimesheetModal);
-         } else {
-             console.warn("closeTimesheetModal function not found/imported from timesheets.js.");
-             modalCloseBtnTs.addEventListener('click', () => timesheetModal.classList.add('hidden'));
-             modalOverlayTs.addEventListener('click', () => timesheetModal.classList.add('hidden'));
-             const footerCloseBtn = document.getElementById('modal-close-btn-ts-footer');
-             if (footerCloseBtn) footerCloseBtn.addEventListener('click', () => timesheetModal.classList.add('hidden'));
-         }
-    }
+    // Timesheet modal setup removed
     const employeeDetailModal = document.getElementById('employee-detail-modal');
     const employeeModalOverlay = document.getElementById('modal-overlay-employee');
     const employeeModalCloseBtnHeader = document.getElementById('modal-close-btn-employee');
@@ -301,17 +258,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sidebarItems.orgStructure && !sidebarItems.orgStructure.classList.contains('hidden')) {
              addClickListenerOnce(sidebarItems.orgStructure.querySelector('a'), displayOrgStructureSection);
         }
-        if (sidebarItems.attendance && !sidebarItems.attendance.classList.contains('hidden')) {
-             addClickListenerOnce(sidebarItems.attendance.querySelector('a'), displayAttendanceSection);
-        }
-        if (sidebarItems.timesheets && !sidebarItems.timesheets.classList.contains('hidden')) {
-             addClickListenerOnce(sidebarItems.timesheets.querySelector('a'), displayTimesheetsSection);
-        }
-        if (sidebarItems.schedules && !sidebarItems.schedules.classList.contains('hidden')) {
-             addClickListenerOnce(sidebarItems.schedules.querySelector('a'), displaySchedulesSection);
-        }
-         if (sidebarItems.shifts && !sidebarItems.shifts.classList.contains('hidden')) {
-             addClickListenerOnce(sidebarItems.shifts.querySelector('a'), displayShiftsSection);
+        // time & attendance listeners removed
+        if (sidebarItems.hmoBenefits && !sidebarItems.hmoBenefits.classList.contains('hidden')) {
+            addClickListenerOnce(sidebarItems.hmoBenefits.querySelector('a'), displayHmoBenefitsSection);
         }
         if (sidebarItems.payrollRuns && !sidebarItems.payrollRuns.classList.contains('hidden')) {
              addClickListenerOnce(sidebarItems.payrollRuns.querySelector('a'), displayPayrollRunsSection);
@@ -328,27 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sidebarItems.payslips && !sidebarItems.payslips.classList.contains('hidden')) {
             addClickListenerOnce(sidebarItems.payslips.querySelector('a'), displayPayslipsSection);
         }
-        if (sidebarItems.submitClaim && !sidebarItems.submitClaim.classList.contains('hidden')) {
-             addClickListenerOnce(sidebarItems.submitClaim.querySelector('a'), displaySubmitClaimSection);
-        }
-        if (sidebarItems.myClaims && !sidebarItems.myClaims.classList.contains('hidden')) {
-             addClickListenerOnce(sidebarItems.myClaims.querySelector('a'), displayMyClaimsSection);
-        }
-        if (sidebarItems.claimsApproval && !sidebarItems.claimsApproval.classList.contains('hidden')) {
-             addClickListenerOnce(sidebarItems.claimsApproval.querySelector('a'), displayClaimsApprovalSection);
-        }
-        if (sidebarItems.claimTypesAdmin && !sidebarItems.claimTypesAdmin.classList.contains('hidden')) {
-             addClickListenerOnce(sidebarItems.claimTypesAdmin.querySelector('a'), displayClaimTypesAdminSection);
-        }
-        if (sidebarItems.leaveRequests && !sidebarItems.leaveRequests.classList.contains('hidden')) {
-             addClickListenerOnce(sidebarItems.leaveRequests.querySelector('a'), displayLeaveRequestsSection);
-        }
-        if (sidebarItems.leaveBalances && !sidebarItems.leaveBalances.classList.contains('hidden')) {
-             addClickListenerOnce(sidebarItems.leaveBalances.querySelector('a'), displayLeaveBalancesSection);
-        }
-        if (sidebarItems.leaveTypes && !sidebarItems.leaveTypes.classList.contains('hidden')) {
-             addClickListenerOnce(sidebarItems.leaveTypes.querySelector('a'), displayLeaveTypesAdminSection);
-        }
+        // claims/leave listeners removed
         if (sidebarItems.compPlans && !sidebarItems.compPlans.classList.contains('hidden')) {
              addClickListenerOnce(sidebarItems.compPlans.querySelector('a'), displayCompensationPlansSection);
         }
@@ -432,26 +361,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 show(sidebarItems.employees, 'Employees');
                 show(sidebarItems.documents, 'Documents');
                 show(sidebarItems.orgStructure, 'Org Structure');
-                show(sidebarItems.timeAttendance, 'Time & Attendance');
-                show(sidebarItems.attendance, 'Attendance');
-                show(sidebarItems.timesheets, 'Timesheets');
-                show(sidebarItems.schedules, 'Schedules');
-                show(sidebarItems.shifts, 'Shifts');
+                // time & attendance removed
+                show(sidebarItems.hmoBenefits, 'HMO & Benefits');
                 show(sidebarItems.payroll, 'Payroll');
                 show(sidebarItems.payrollRuns, 'Payroll Runs');
                 show(sidebarItems.salaries, 'Salaries');
                 show(sidebarItems.bonuses, 'Bonuses');
                 show(sidebarItems.deductions, 'Deductions');
                 show(sidebarItems.payslips, 'Payslips'); // Admins might need to view all
-                show(sidebarItems.claims, 'Claims');
-                // hide(sidebarItems.submitClaim, 'Submit Claim (Admin)'); // Admins typically don't submit their own via general UI
-                // hide(sidebarItems.myClaims, 'My Claims (Admin)');
-                show(sidebarItems.claimsApproval, 'Claims Approval');
-                show(sidebarItems.claimTypesAdmin, 'Claim Types Admin');
-                show(sidebarItems.leave, 'Leave');
-                show(sidebarItems.leaveRequests, 'Leave Requests'); // Includes approvals
-                show(sidebarItems.leaveBalances, 'Leave Balances'); // View all
-                show(sidebarItems.leaveTypes, 'Leave Types');
+                // claims/leave removed from admin view
                 show(sidebarItems.compensation, 'Compensation');
                 show(sidebarItems.compPlans, 'Comp Plans');
                 show(sidebarItems.salaryAdjust, 'Salary Adjust');
@@ -469,16 +387,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
             case 'Manager':
                 console.log("Executing Manager access rules.");
-                show(sidebarItems.claims, 'Claims');
-                show(sidebarItems.submitClaim, 'Submit Claim'); 
-                show(sidebarItems.myClaims, 'My Claims'); 
-                show(sidebarItems.claimsApproval, 'Claims Approval'); 
-                show(sidebarItems.leave, 'Leave');
-                show(sidebarItems.leaveRequests, 'Leave Requests'); 
-                show(sidebarItems.leaveBalances, 'Leave Balances'); 
-                show(sidebarItems.timeAttendance, 'Time & Attendance');
-                show(sidebarItems.attendance, 'Attendance'); 
-                show(sidebarItems.timesheets, 'Timesheets'); 
+                // claims/leave removed from manager view
+                // time & attendance removed
+                show(sidebarItems.hmoBenefits, 'HMO & Benefits');
                 show(sidebarItems.payroll, 'Payroll');
                 show(sidebarItems.payslips, 'Payslips'); 
                 
@@ -496,25 +407,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
             case 'Employee':
                 console.log("Executing Employee access rules.");
-                show(sidebarItems.claims, 'Claims');
-                show(sidebarItems.submitClaim, 'Submit Claim');
-                show(sidebarItems.myClaims, 'My Claims');
-                show(sidebarItems.leave, 'Leave');
-                show(sidebarItems.leaveRequests, 'Leave Requests');
-                show(sidebarItems.leaveBalances, 'Leave Balances');
+                // claims/leave removed from employee view
                 show(sidebarItems.payroll, 'Payroll');
                 show(sidebarItems.payslips, 'Payslips');
 
                 // Explicitly hide sections not for Employees
                 hide(sidebarItems.coreHr, 'Core HR (Employee)');
-                hide(sidebarItems.timeAttendance, 'Time & Attendance (Employee)'); 
+                // time & attendance removed
+                show(sidebarItems.hmoBenefits, 'HMO & Benefits');
                 hide(sidebarItems.payrollRuns, 'Payroll Runs (Employee)');
                 hide(sidebarItems.salaries, 'Salaries (Employee)');
                 hide(sidebarItems.bonuses, 'Bonuses (Employee)');
                 hide(sidebarItems.deductions, 'Deductions (Employee)');
-                hide(sidebarItems.claimsApproval, 'Claims Approval (Employee)');
-                hide(sidebarItems.claimTypesAdmin, 'Claim Types Admin (Employee)');
-                hide(sidebarItems.leaveTypes, 'Leave Types (Employee)');
+                // claims/leave items already removed
                 hide(sidebarItems.compensation, 'Compensation (Employee)');
                 hide(sidebarItems.analytics, 'Analytics (Employee)');
                 hide(sidebarItems.admin, 'Admin (Employee)');
@@ -545,13 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'bonuses': displayBonusesSection,
         'deductions': displayDeductionsSection,
         'payslips': displayPayslipsSection,
-        'submit-claim': displaySubmitClaimSection,
-        'my-claims': displayMyClaimsSection,
-        'claims-approval': displayClaimsApprovalSection,
-        'claim-types-admin': displayClaimTypesAdminSection,
-        'leave-requests': displayLeaveRequestsSection,
-        'leave-balances': displayLeaveBalancesSection,
-        'leave-types': displayLeaveTypesAdminSection,
+        // claims/leave routes removed
         'comp-plans': displayCompensationPlansSection,
         'salary-adjust': displaySalaryAdjustmentsSection,
         'incentives': displayIncentivesSection,

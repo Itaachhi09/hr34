@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: HR34 API
+  version: 0.1.0
+  description: Core HR microservices (Flask) - initial skeleton. Claims/Leave removed.
+servers:
+  - url: http://localhost:8000
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+  /v1/users:
+    get:
+      summary: List users
+      responses:
+        '200':
+          description: OK
+  /v1/employees:
+    get:
+      summary: List employees
+      responses:
+        '200':
+          description: OK
+  /v1/payroll/runs:
+    get:
+      summary: List payroll runs
+      responses:
+        '200':
+          description: OK
+

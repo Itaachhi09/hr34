@@ -1,3 +1,59 @@
+import { API_BASE_URL } from '../utils.js';
+
+let pageTitleElement;
+let mainContentArea;
+
+function initializeElements() {
+    pageTitleElement = document.getElementById('page-title');
+    mainContentArea = document.getElementById('main-content-area');
+    return !!(pageTitleElement && mainContentArea);
+}
+
+export async function displayHmoBenefitsSection() {
+    if (!initializeElements()) return;
+    pageTitleElement.textContent = 'HMO & Benefits';
+    mainContentArea.innerHTML = `
+        <div class="space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow-md border border-[#F7E6CA]">
+                <h3 class="text-lg font-semibold text-[#4E3B2A] mb-4 font-header">HMO Providers</h3>
+                <div id="hmo-providers-container" class="text-sm text-gray-700">Loading HMO providers...</div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md border border-[#F7E6CA]">
+                <h3 class="text-lg font-semibold text-[#4E3B2A] mb-4 font-header">Employee Benefits</h3>
+                <div id="employee-benefits-container" class="text-sm text-gray-700">Loading employee benefits...</div>
+            </div>
+        </div>
+    `;
+
+    try {
+        const providersResp = await fetch(`${API_BASE_URL}get_hmo_providers.php`);
+        const providers = await providersResp.json().catch(() => []);
+        const container = document.getElementById('hmo-providers-container');
+        if (Array.isArray(providers) && providers.length) {
+            container.innerHTML = `<ul class="list-disc pl-6">${providers.map(p => `<li>${p.name || p.provider_name}</li>`).join('')}</ul>`;
+        } else {
+            container.textContent = 'No HMO providers found.';
+        }
+    } catch (e) {
+        const container = document.getElementById('hmo-providers-container');
+        if (container) container.textContent = 'Failed to load HMO providers.';
+    }
+
+    try {
+        const benefitsResp = await fetch(`${API_BASE_URL}get_benefits_plans.php`);
+        const benefits = await benefitsResp.json().catch(() => []);
+        const container = document.getElementById('employee-benefits-container');
+        if (Array.isArray(benefits) && benefits.length) {
+            container.innerHTML = `<ul class="list-disc pl-6">${benefits.map(b => `<li>${b.plan_name || b.name}</li>`).join('')}</ul>`;
+        } else {
+            container.textContent = 'No benefits plans found.';
+        }
+    } catch (e) {
+        const container = document.getElementById('employee-benefits-container');
+        if (container) container.textContent = 'Failed to load benefits plans.';
+    }
+}
+
 export async function displayHmoBenefitsSection() {
     const main = document.getElementById('main-content-area');
     if (!main) return;

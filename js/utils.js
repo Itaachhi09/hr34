@@ -3,7 +3,7 @@
  */
 
 // Base URL for API calls
-export const API_BASE_URL = 'php/api/'; // Ensure this path is correct relative to index.php
+export const API_BASE_URL = 'http://localhost/hr34/php/api/'; // Direct API calls
 
 /**
  * Fetches employees and populates a given select element.

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HVILL Hospital</title>
+    <title>HVILL Hospital - HR Staff</title>
     <?php include __DIR__ . '/php/includes/ui_theme.php'; ?>
     <style>
         /* Apply Georgia to the entire body */
@@ -90,70 +90,24 @@
             transition: transform 0.25s ease;
         }
     </style>
+    <script>
+        window.DESIGNATED_ROLE = 'HR Staff';
+        window.DESIGNATED_DEFAULT_SECTION = 'dashboard';
+    </script>
+    <script src="js/main.js" type="module" defer></script> 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
-    <!-- Removed js/main.js on login page to use real login flow -->
-    
 </head>
 <body>
 
-    <div id="login-container" class="flex items-center justify-center min-h-screen">
-        <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md border border-[#F7E6CA]">
-            <div class="text-center">
-                 <img src="logo.jpg" alt="HVILL Hospital Logo" class="h-16 w-auto mx-auto mb-4">
-                 <h2 class="text-2xl font-bold text-[#4E3B2A]">HR System Login</h2>
-            </div>
-
-            <form id="login-form" class="space-y-4">
-                <div>
-                    <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username:</label>
-                    <input type="text" id="username" name="username" required
-                           class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-[#4E3B2A] focus:border-[#4E3B2A]"
-                           placeholder="Enter your username">
-                </div>
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password:</label>
-                    <input type="password" id="password" name="password" required
-                           class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-[#4E3B2A] focus:border-[#4E3B2A]"
-                           placeholder="Enter your password">
-                </div>
-                <div>
-                    <button type="submit" id="login-button"
-                            class="w-full px-4 py-3 font-semibold text-white bg-[#594423] rounded-md hover:bg-[#4E3B2A] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#594423] transition duration-150 ease-in-out">
-                        Login
-                    </button>
-                </div>
-                <div id="login-status" class="text-center text-sm text-red-600 h-4"></div>
-            </form>
-
-            <form id="2fa-form" class="space-y-4 hidden">
-                <input type="hidden" id="2fa-user-id" value=""> <div>
-                    <label for="2fa-code" class="block text-sm font-medium text-gray-700 mb-1">Authentication Code:</label>
-                    <input type="text" id="2fa-code" name="code" required inputmode="numeric" pattern="[0-9]*" maxlength="6"
-                           class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-[#4E3B2A] focus:border-[#4E3B2A]"
-                           placeholder="Enter code from email">
-                </div>
-                <div>
-                    <button type="submit" id="verify-2fa-button"
-                            class="w-full px-4 py-3 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
-                        Verify Code
-                    </button>
-                </div>
-                 <div id="2fa-status" class="text-center text-sm text-red-600 h-4"></div>
-            </form>
-            <p id="2fa-message" class="text-center text-sm text-gray-600 mt-2"></p>
-
-        </div>
-    </div>
-
-    <div id="app-container" class="flex min-h-screen w-full" style="display: none;">
+    <div id="app-container" class="flex min-h-screen w-full">
         <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
         <div class="sidebar sidebar-expanded fixed z-50 overflow-y-auto h-screen bg-white border-r border-[#F7E6CA] flex flex-col transition-width duration-300 ease-in-out">
             <div class="h-16 border-b border-[#F7E6CA] flex items-center justify-between px-4 space-x-2 sticky top-0 bg-white z-10 flex-shrink-0">
                 <div class="flex items-center space-x-2 overflow-hidden">
-                    <img src="logo.png" alt="HR System Logo" class="h-10 w-auto flex-shrink-0">
-                    <img src="logo-name.png" alt="Avalon Logo Name" class="h-6 w-auto sidebar-logo-name">
+                    <img src="logo.jpg" alt="HVILL Hospital Logo" class="h-10 w-auto flex-shrink-0">
+                    <span class="h-6 w-auto sidebar-logo-name text-lg font-semibold text-[#0b1a33]">HVILL Hospital</span>
                 </div>
                 <i id="close-sidebar-btn" class="fa-solid fa-xmark close-sidebar-btn font-bold text-xl cursor-pointer text-[#4E3B2A] hover:text-red-500 flex-shrink-0"></i>
             </div>
@@ -224,38 +178,12 @@
                     </li>
 
                     <li class="menu-option">
-                        <div class="menu-name flex justify-between items-center space-x-3 hover:bg-[#F7E6CA] px-4 py-3 rounded-lg transition duration-300 ease-in-out cursor-pointer" onclick="toggleDropdown('claims-dropdown', this)">
+                        <a href="#" id="hmo-benefits-link" class="menu-name flex justify-between items-center space-x-3 hover:bg-[#F7E6CA] px-4 py-3 rounded-lg transition duration-300 ease-in-out cursor-pointer">
                             <div class="flex items-center space-x-2">
-                                <i class="fa-solid fa-receipt text-lg pr-4 menu-icon"></i>
-                                <span class="text-sm font-medium">Claims</span>
+                                <i class="fa-solid fa-briefcase-medical text-lg pr-4 menu-icon"></i>
+                                <span class="text-sm font-medium">HMO & Benefits</span>
                             </div>
-                            <div class="arrow"><i class="bx bx-chevron-right text-lg font-semibold arrow-icon"></i></div>
-                        </div>
-                        <div id="claims-dropdown" class="menu-drop hidden flex-col w-full bg-[#F7E6CA] rounded-lg p-3 space-y-1 mt-1">
-                            <ul class="space-y-1">
-                                <li><a href="#" id="submit-claim-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">Submit Claim</a></li>
-                                <li><a href="#" id="my-claims-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">My Claims</a></li>
-                                <li><a href="#" id="claims-approval-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">Approvals</a></li>
-                                <li><a href="#" id="claim-types-admin-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">Claim Types (Admin)</a></li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="menu-option">
-                        <div class="menu-name flex justify-between items-center space-x-3 hover:bg-[#F7E6CA] px-4 py-3 rounded-lg transition duration-300 ease-in-out cursor-pointer" onclick="toggleDropdown('leave-dropdown', this)">
-                            <div class="flex items-center space-x-2">
-                                <i class="fa-solid fa-calendar-alt text-lg pr-4 menu-icon"></i>
-                                <span class="text-sm font-medium">Leave Management</span>
-                            </div>
-                            <div class="arrow"><i class="bx bx-chevron-right text-lg font-semibold arrow-icon"></i></div>
-                        </div>
-                        <div id="leave-dropdown" class="menu-drop hidden flex-col w-full bg-[#F7E6CA] rounded-lg p-3 space-y-1 mt-1">
-                            <ul class="space-y-1">
-                                <li><a href="#" id="leave-requests-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">Leave Requests</a></li>
-                                <li><a href="#" id="leave-balances-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">Leave Balances</a></li>
-                                <li><a href="#" id="leave-types-link" class="block px-3 py-1 text-sm text-gray-800 hover:bg-white rounded hover:text-[#4E3B2A]">Leave Types</a></li>
-                            </ul>
-                        </div>
+                        </a>
                     </li>
 
                     <li class="menu-option">
@@ -369,45 +297,39 @@
             </footer>
         </div>
 
-        <div id="timesheet-detail-modal" class="fixed inset-0 z-[60] hidden overflow-y-auto" aria-labelledby="modal-title-ts" role="dialog" aria-modal="true">
+        <div id="timesheet-detail-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 modal" aria-labelledby="modal-title-ts" role="dialog" aria-modal="true">
             <div id="modal-overlay-ts" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl w-full">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
-                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
-                            <i class="fa-solid fa-clipboard-list text-xl text-blue-600"></i>
-                        </div>
-                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900 font-header" id="modal-title-ts">
-                                Timesheet Details (<span id="modal-timesheet-id"></span>)
-                            </h3>
-                            <div class="mt-4 space-y-3">
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                                    <div><strong>Employee:</strong> <span id="modal-employee-name"></span></div>
-                                    <div><strong>Job Title:</strong> <span id="modal-employee-job"></span></div>
-                                    <div><strong>Period:</strong> <span id="modal-period-start"></span> to <span id="modal-period-end"></span></div>
-                                    <div><strong>Status:</strong> <span id="modal-status" class="font-semibold"></span></div>
-                                    <div><strong>Total Hours:</strong> <span id="modal-total-hours"></span></div>
-                                    <div><strong>Overtime Hours:</strong> <span id="modal-overtime-hours"></span></div>
-                                    <div><strong>Submitted:</strong> <span id="modal-submitted-date"></span></div>
-                                    <div><strong>Approved By:</strong> <span id="modal-approver-name"></span></div>
-                                </div>
-                                <hr>
-                                <div>
-                                    <h4 class="text-md font-medium text-gray-800 mb-2 font-header">Attendance Entries</h4>
-                                    <div id="modal-attendance-entries" class="max-h-60 overflow-y-auto border rounded">
-                                        </div>
-                                </div>
+            <div class="modal-content bg-white rounded-lg shadow-xl transform transition-all sm:max-w-3xl w-full p-6 space-y-4 overflow-y-auto max-h-[90vh]">
+                <div class="flex justify-between items-center pb-3 border-b">
+                     <h3 class="text-lg font-medium text-[#4E3B2A] font-header" id="modal-title-ts">
+                        Timesheet Details (<span id="modal-timesheet-id"></span>)
+                    </h3>
+                    <button type="button" id="modal-close-btn-ts" class="text-gray-400 hover:text-gray-600">
+                        <span class="sr-only">Close</span>
+                        <i class="fa-solid fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div class="mt-4 space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                        <div><strong>Employee:</strong> <span id="modal-employee-name"></span></div>
+                        <div><strong>Job Title:</strong> <span id="modal-employee-job"></span></div>
+                        <div><strong>Period:</strong> <span id="modal-period-start"></span> to <span id="modal-period-end"></span></div>
+                        <div><strong>Status:</strong> <span id="modal-status" class="font-semibold"></span></div>
+                        <div><strong>Total Hours:</strong> <span id="modal-total-hours"></span></div>
+                        <div><strong>Overtime Hours:</strong> <span id="modal-overtime-hours"></span></div>
+                        <div><strong>Submitted:</strong> <span id="modal-submitted-date"></span></div>
+                        <div><strong>Approved By:</strong> <span id="modal-approver-name"></span></div>
+                    </div>
+                    <hr>
+                    <div>
+                        <h4 class="text-md font-medium text-gray-800 mb-2 font-header">Attendance Entries</h4>
+                        <div id="modal-attendance-entries" class="max-h-60 overflow-y-auto border rounded">
                             </div>
-                        </div>
                     </div>
                 </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="button" id="modal-close-btn-ts" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                        Close
-                    </button>
-                 </div>
+                 <div class="pt-4 flex justify-end space-x-3 border-t mt-4">
+                    <button type="button" id="modal-close-btn-ts-footer" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">Close</button>
+                </div>
             </div>
         </div>
         
@@ -480,7 +402,7 @@
                 </form>
             </div>
         </div>
-
+        
         <div id="add-schedule-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 modal" aria-labelledby="add-schedule-modal-title" role="dialog" aria-modal="true">
             <div id="add-schedule-modal-overlay" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
             <div class="modal-content bg-white rounded-lg shadow-xl transform transition-all sm:max-w-xl w-full p-6 space-y-4"> <div class="flex justify-between items-center pb-3 border-b">
@@ -502,7 +424,7 @@
                             <label for="modal-schedule-shift-select" class="block text-sm font-medium text-gray-700 mb-1">Shift (Optional):</label>
                             <select id="modal-schedule-shift-select" name="shift_id" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#4E3B2A] focus:border-[#4E3B2A]">
                                 <option value="">-- No Specific Shift --</option>
-                            </select>
+                                </select>
                         </div>
                          <div>
                             <label for="modal-schedule-workdays" class="block text-sm font-medium text-gray-700 mb-1">Work Days:</label>
@@ -525,7 +447,7 @@
                 </form>
             </div>
         </div>
-
+        
         <div id="employee-detail-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 modal" aria-labelledby="modal-title-employee" role="dialog" aria-modal="true">
             <div id="modal-overlay-employee" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
             <div class="modal-content bg-white rounded-lg shadow-xl transform transition-all sm:max-w-3xl w-full p-6 space-y-4 overflow-y-auto max-h-[90vh]">
@@ -537,8 +459,7 @@
                     </button>
                 </div>
                 <div id="employee-detail-content" class="mt-4 space-y-3 text-sm">
-                    <p>Loading details...</p>
-                </div>
+                    <p>Loading details...</p> </div>
                 <div class="pt-4 flex justify-end space-x-3 border-t mt-4">
                     <button type="button" id="modal-close-btn-employee-footer" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">Close</button>
                 </div>
@@ -546,84 +467,7 @@
         </div>
 
     </div> <script>
-        // Login flow for index.php (calls API and handles 2FA)
-        const loginForm = document.getElementById('login-form');
-        const loginStatus = document.getElementById('login-status');
-        const twoFaForm = document.getElementById('2fa-form');
-        const twoFaStatus = document.getElementById('2fa-status');
-        const twoFaMessage = document.getElementById('2fa-message');
-        const twoFaUserIdInput = document.getElementById('2fa-user-id');
-
-        async function postJson(url, data) {
-            const res = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            const json = await res.json().catch(() => ({}));
-            if (!res.ok) throw new Error(json.error || 'Request failed');
-            return json;
-        }
-
-        function goToLanding(roleName) {
-            switch ((roleName || '').toLowerCase()) {
-                case 'system admin':
-                    window.location.href = 'admin_landing.php';
-                    break;
-                case 'hr admin':
-                    window.location.href = 'hr_staff_landing.php';
-                    break;
-                case 'manager':
-                case 'employee':
-                default:
-                    window.location.href = 'hr_staff_landing.php';
-                    break;
-            }
-        }
-
-        if (loginForm) {
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                loginStatus.textContent = 'Signing in...';
-                try {
-                    const payload = {
-                        username: document.getElementById('username').value.trim(),
-                        password: document.getElementById('password').value
-                    };
-                    const result = await postJson('php/api/login.php', payload);
-                    if (result.two_factor_required) {
-                        twoFaUserIdInput.value = result.user_id_temp;
-                        twoFaMessage.textContent = result.message || 'Enter the 6-digit code sent to your email.';
-                        twoFaForm.classList.remove('hidden');
-                        loginForm.classList.add('hidden');
-                        loginStatus.textContent = '';
-                    } else {
-                        loginStatus.textContent = '';
-                        goToLanding(result.user?.role_name);
-                    }
-                } catch (err) {
-                    loginStatus.textContent = err.message || 'Login failed.';
-                }
-            });
-        }
-
-        if (twoFaForm) {
-            twoFaForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                twoFaStatus.textContent = 'Verifying...';
-                try {
-                    const result = await postJson('php/api/verify_2fa.php', {
-                        user_id: parseInt(twoFaUserIdInput.value, 10),
-                        code: document.getElementById('2fa-code').value.trim()
-                    });
-                    twoFaStatus.textContent = '';
-                    goToLanding(result.user?.role_name);
-                } catch (err) {
-                    twoFaStatus.textContent = err.message || 'Verification failed.';
-                }
-            });
-        }
-        // DOM Element References
+        // Sidebar toggle and dropdown logic (kept for UI interaction)
         const menuBtn = document.querySelector('.menu-btn');
         const sidebar = document.querySelector('.sidebar');
         const mainContent = document.querySelector('.main');
@@ -631,26 +475,22 @@
         const closeBtn = document.getElementById('close-sidebar-btn');
         const body = document.body;
 
-        // Function to close the sidebar (mobile view)
         function closeSidebar() {
             if(sidebar) sidebar.classList.remove('mobile-active');
             if(overlay) overlay.classList.remove('active');
-            if(body) body.style.overflow = 'auto'; // Restore background scrolling
+            if(body) body.style.overflow = 'auto';
         }
 
-        // Function to open the sidebar (mobile view)
         function openSidebar() {
             if(sidebar) sidebar.classList.add('mobile-active');
             if(overlay) overlay.classList.add('active');
-            if(body) body.style.overflow = 'hidden'; // Prevent scrolling background
+            if(body) body.style.overflow = 'hidden';
         }
 
-        // Function to toggle the sidebar (desktop and mobile)
         function toggleSidebar() {
-            if (!sidebar || !mainContent) return; // Exit if elements not found
+            if (!sidebar || !mainContent) return;
             const isMobile = window.innerWidth <= 968;
             if (isMobile) {
-                // On mobile, always ensure it's expanded when toggling
                 sidebar.classList.add('sidebar-expanded');
                 sidebar.classList.remove('sidebar-collapsed');
                 if (sidebar.classList.contains('mobile-active')) {
@@ -659,10 +499,8 @@
                     openSidebar();
                 }
             } else {
-                // On desktop, toggle between collapsed and expanded
                 sidebar.classList.toggle('sidebar-collapsed');
                 sidebar.classList.toggle('sidebar-expanded');
-                // Adjust main content margin based on sidebar state
                 if (sidebar.classList.contains('sidebar-collapsed')) {
                     mainContent.classList.remove('md:ml-[320px]');
                     mainContent.classList.add('md:ml-[85px]');
@@ -673,17 +511,14 @@
             }
         }
 
-        // Event Listeners for sidebar toggle/close
         if(menuBtn) menuBtn.addEventListener('click', toggleSidebar);
         if(overlay) overlay.addEventListener('click', closeSidebar);
         if(closeBtn) closeBtn.addEventListener('click', closeSidebar);
 
-        // Adjust sidebar and main content margin on window resize
         window.addEventListener('resize', () => {
              if (!sidebar || !mainContent) return;
             const isMobile = window.innerWidth <= 968;
             if (!isMobile) {
-                // Desktop view
                 closeSidebar(); 
                  if (sidebar.classList.contains('sidebar-collapsed')) {
                     mainContent.classList.remove('md:ml-[320px]');
@@ -694,7 +529,7 @@
                     mainContent.classList.remove('md:ml-[85px]');
                     mainContent.classList.add('md:ml-[320px]');
                 }
-            } else {
+             } else {
                  sidebar.classList.add('sidebar-expanded');
                  sidebar.classList.remove('sidebar-collapsed');
                  mainContent.classList.remove('md:ml-[85px]', 'md:ml-[320px]');
@@ -705,8 +540,8 @@
             }
         });
 
-        // Function to toggle dropdown menus in the sidebar
-         function toggleDropdown(dropdownId, element) {
+        // Global function for sidebar dropdowns, accessible by inline onclick
+        window.toggleDropdown = function(dropdownId, element) {
             const dropdown = document.getElementById(dropdownId);
             const icon = element.querySelector('.arrow-icon'); 
 
@@ -729,6 +564,7 @@
             }
         }
 
+        // Initial margin adjustment on load
         document.addEventListener('DOMContentLoaded', () => {
             if (!sidebar || !mainContent) return;
              if (window.innerWidth > 968) { 

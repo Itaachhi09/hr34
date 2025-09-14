@@ -75,7 +75,7 @@ export async function fetchAndRenderNotifications() {
     // console.log("[Notifications] Fetching notifications..."); // Less frequent logging for shorter intervals
 
     try {
-        const response = await fetch(`${API_BASE_URL}get_notifications.php`);
+        const response = await fetch(`${API_BASE_URL}get_notifications.php?user_id=${window.currentUser.user_id}`);
         if (!response.ok) {
             const errorText = await response.text();
             console.error(`[Notifications] HTTP error! Status: ${response.status}, Response: ${errorText.substring(0, 200)}`);
@@ -90,9 +90,9 @@ export async function fetchAndRenderNotifications() {
             throw new Error(data.error);
         }
 
-        renderNotificationList(data.notifications || []);
+        renderNotificationList(data || []);
         // console.log('[Notifications] Calling updateNotificationDot with unread_count from server:', data.unread_count); // Can be noisy
-        updateNotificationDot(data.unread_count || 0);
+        updateNotificationDot(data.filter(n => !n.IsRead).length || 0);
 
     } catch (error) {
         console.error("[Notifications] Error fetching/rendering notifications:", error.message);

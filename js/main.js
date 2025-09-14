@@ -406,23 +406,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 hide(sidebarItems.admin, 'Admin (Manager)');
                 break;
             case 'Employee':
-                console.log("Executing Employee access rules.");
-                // claims/leave removed from employee view
-                show(sidebarItems.payroll, 'Payroll');
-                show(sidebarItems.payslips, 'Payslips');
-
-                // Explicitly hide sections not for Employees
-                hide(sidebarItems.coreHr, 'Core HR (Employee)');
-                // time & attendance removed
+            case 'HR Staff':
+                console.log("Executing HR Staff access rules.");
+                // HR Staff has access to most HR functions
+                show(sidebarItems.coreHr, 'Core HR');
+                show(sidebarItems.employees, 'Employees');
+                show(sidebarItems.documents, 'Documents');
+                show(sidebarItems.orgStructure, 'Org Structure');
                 show(sidebarItems.hmoBenefits, 'HMO & Benefits');
-                hide(sidebarItems.payrollRuns, 'Payroll Runs (Employee)');
-                hide(sidebarItems.salaries, 'Salaries (Employee)');
-                hide(sidebarItems.bonuses, 'Bonuses (Employee)');
-                hide(sidebarItems.deductions, 'Deductions (Employee)');
-                // claims/leave items already removed
-                hide(sidebarItems.compensation, 'Compensation (Employee)');
-                hide(sidebarItems.analytics, 'Analytics (Employee)');
-                hide(sidebarItems.admin, 'Admin (Employee)');
+                show(sidebarItems.payroll, 'Payroll');
+                show(sidebarItems.payrollRuns, 'Payroll Runs');
+                show(sidebarItems.salaries, 'Salaries');
+                show(sidebarItems.bonuses, 'Bonuses');
+                show(sidebarItems.deductions, 'Deductions');
+                show(sidebarItems.payslips, 'Payslips');
+                show(sidebarItems.compensation, 'Compensation');
+                show(sidebarItems.compPlans, 'Comp Plans');
+                show(sidebarItems.salaryAdjust, 'Salary Adjust');
+                show(sidebarItems.incentives, 'Incentives');
+                show(sidebarItems.analytics, 'Analytics');
+                show(sidebarItems.analyticsDashboards, 'Analytics Dashboards');
+                show(sidebarItems.analyticsReports, 'Analytics Reports');
+                show(sidebarItems.analyticsMetrics, 'Analytics Metrics');
+                
+                // Hide admin functions for HR Staff
+                hide(sidebarItems.admin, 'Admin (HR Staff)');
                 break;
             default: 
                 console.log("Executing Default access rules (no specific role identified).");
@@ -570,14 +578,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 role_name: 'Manager'
             };
             defaultSection = window.DESIGNATED_DEFAULT_SECTION || 'dashboard'; // Or 'claimsApproval'
-        } else if (window.DESIGNATED_ROLE === 'Employee') {
+        } else if (window.DESIGNATED_ROLE === 'Employee' || window.DESIGNATED_ROLE === 'HR Staff') {
             mockUser = {
-                user_id: 3, // Example: UserID for an Employee
-                employee_id: 3, // Example: EmployeeID for that Employee
-                username: 'employee_landed',
-                full_name: 'Employee (Landed)',
-                role_id: 3, // RoleID for Employee from your DB
-                role_name: 'Employee'
+                user_id: 3, // Example: UserID for an HR Staff
+                employee_id: 3, // Example: EmployeeID for that HR Staff
+                username: 'hrstaff_landed',
+                full_name: 'HR Staff (Landed)',
+                role_id: 2, // RoleID for HR Admin from your DB
+                role_name: 'HR Staff'
             };
             defaultSection = window.DESIGNATED_DEFAULT_SECTION || 'dashboard';
         } else {

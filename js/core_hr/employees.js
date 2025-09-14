@@ -92,7 +92,7 @@ async function loadEmployees() {
          return;
     };
     try {
-        const response = await fetch(`${API_BASE_URL}get_employees.php`);
+        const response = await fetch(`${API_BASE_URL}get_employees_list.php`);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const employees = await response.json();
         if (employees.error) {

@@ -141,7 +141,7 @@ try {
                 e.FirstName, e.LastName, e.Email AS EmployeeEmail
             FROM Users u
             JOIN Roles r ON u.RoleID = r.RoleID
-            LEFT JOIN Employees e ON u.EmployeeID = e.EmployeeID
+            LEFT JOIN employees e ON u.EmployeeID = e.EmployeeID
             WHERE u.Username = :username";
 
     $stmt = $pdo->prepare($sql);

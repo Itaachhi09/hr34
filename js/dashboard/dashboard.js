@@ -65,7 +65,7 @@ export async function displayDashboardSection() {
 
 
     try {
-        const apiUrl = `${API_BASE_URL}get_dashboard_summary.php?role=${encodeURIComponent(user.role_name)}`;
+        const apiUrl = `${API_BASE_URL}get_dashboard_summary_landing.php?role=${encodeURIComponent(user.role_name)}`;
         console.log(`[Dashboard] Fetching summary data from: ${apiUrl}`);
         const response = await fetch(apiUrl);
         console.log(`[Dashboard] Raw response status: ${response.status}`);
@@ -118,7 +118,7 @@ function renderDashboardSummary(summaryData, userRole) {
     const iconColor = 'text-[#594423]'; 
     const valueColor = 'text-[#594423]'; 
 
-    if (userRole === 'System Admin' || userRole === 'HR Admin') {
+    if (userRole === 'System Admin' || userRole === 'HR Admin' || userRole === 'HR Staff') {
         cardsHtml += createSummaryCard('Total Employees', summaryData.total_employees || 0, 'fa-users', cardBgColor, textColor, iconColor, valueColor);
         cardsHtml += createSummaryCard('Active Employees', summaryData.active_employees || 0, 'fa-user-check', cardBgColor, textColor, iconColor, valueColor);
         // Leave cards removed
@@ -129,7 +129,7 @@ function renderDashboardSummary(summaryData, userRole) {
         // Leave cards removed
         cardsHtml += createSummaryCard('Pending Timesheets', summaryData.pending_timesheets || 0, 'fa-clock', cardBgColor, textColor, iconColor, valueColor);
         cardsHtml += createSummaryCard('Open Team Tasks', summaryData.open_tasks || 0, 'fa-tasks', cardBgColor, textColor, iconColor, valueColor);
-    } else if (userRole === 'Employee') {
+    } else if (userRole === 'Employee' || userRole === 'HR Staff') {
         // Leave/Claims cards removed
         cardsHtml += createSummaryCard('Upcoming Payslip', summaryData.upcoming_payslip_date || 'N/A', 'fa-money-bill-wave', cardBgColor, textColor, iconColor, valueColor);
         cardsHtml += createSummaryCard('My Documents', summaryData.my_documents_count || 0, 'fa-folder-open', cardBgColor, textColor, iconColor, valueColor);
@@ -248,7 +248,7 @@ function renderCharts(chartData, userRole) {
         return;
     }
 
-    if (userRole === 'System Admin' || userRole === 'HR Admin') {
+    if (userRole === 'System Admin' || userRole === 'HR Admin' || userRole === 'HR Staff') {
         // Chart 1: Employee Status Distribution
         if (chartData.employee_status_distribution && chartData.employee_status_distribution.data && chartData.employee_status_distribution.data.some(d => d > 0)) {
             const div1 = document.createElement('div');

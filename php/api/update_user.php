@@ -27,12 +27,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // --- Database Connection ---
 $pdo = null;
 try {
-    require_once '../db_connect.php';
-    if (!isset($pdo) || !$pdo instanceof PDO) {
-        throw new Exception('DB connection failed');
+    // Use __DIR__ to resolve the path reliably regardless of include context
+    $dbConnectPath = __DIR__ . '/../db_connect.php';
+    if (file_exists($dbConnectPath)) {
+        require_once $dbConnectPath;
+    } else {
+        // Fallback: try one more relative path (in case api folder structure differs)
+        $altPath = __DIR__ . '/../../php/db_connect.php';
+        if (file_exists($altPath)) {
+            require_once $altPath;
+        }
     }
+
+    // If $pdo wasn't initialized by the included file, attempt to create it from env vars
+    if (!isset($pdo) || !$pdo instanceof PDO) {
+        // Read same env vars as db_connect.php
+        $db_host = getenv('DB_HOST') ?: 'localhost';
+        $db_name = getenv('DB_NAME') ?: 'hr_integrated_db';
+        $db_user = getenv('DB_USER') ?: 'root';
+        $db_pass = getenv('DB_PASS') ?: '';
+        $charset = 'utf8mb4';
+        $dsn = "mysql:host={$db_host};dbname={$db_name};charset={$charset}";
+        $options = [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => false,
+        ];
+        $pdo = new PDO($dsn, $db_user, $db_pass, $options);
+    }
+
 } catch (Throwable $e) {
-    error_log("PHP Error in update_user.php (db_connect include): " . $e->getMessage());
+    error_log("PHP Error in update_user.php (db_connect include/fallback): " . $e->getMessage());
     if (!headers_sent()) { http_response_code(500); }
     echo json_encode(['error' => 'Server configuration error.']);
     exit;
